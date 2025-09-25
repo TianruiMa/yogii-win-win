@@ -26,7 +26,7 @@ interface GameRecord {
   // 大盲注
   big_blind?: number
   // 游戏货币
-  currency?: 'CAD' | 'RMB'
+  currency?: 'CAD' | 'CNY'
   // 服务器返回的其他字段
   room_id?: string
   joined_at?: string
@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
   // 状态
   const userId = ref<string>('')
   const nickname = ref<string>('')
-  const preferredCurrency = ref<'CAD' | 'RMB'>('CAD')
+  const preferredCurrency = ref<'CAD' | 'CNY'>('CAD')
   const preferredLanguage = ref<'zh' | 'en'>('zh')
   const isInitialized = ref(false)
 
@@ -161,7 +161,7 @@ export const useUserStore = defineStore('user', () => {
   }
   
   // 更新货币偏好（仅本地存储）
-  function updatePreferredCurrency(newCurrency: 'CAD' | 'RMB'): void {
+  function updatePreferredCurrency(newCurrency: 'CAD' | 'CNY'): void {
     preferredCurrency.value = newCurrency
     localStorage.setItem('userPreferredCurrency', newCurrency)
     console.log('✅ 货币偏好已更新（本地）:', newCurrency)
@@ -336,7 +336,7 @@ export const useUserStore = defineStore('user', () => {
     chipsPerHand: number
     bigBlind: number
     costPerHand: number
-    currency: 'CAD' | 'RMB'
+    currency: 'CAD' | 'CNY'
     hands: number
     finalChips: number
   }) {
@@ -385,7 +385,7 @@ export const useUserStore = defineStore('user', () => {
   function restoreUserState() {
     const savedUserId = localStorage.getItem('userId')
     const savedNickname = localStorage.getItem('userNickname')
-    const savedCurrency = localStorage.getItem('userPreferredCurrency') as 'CAD' | 'RMB' | null
+    const savedCurrency = localStorage.getItem('userPreferredCurrency') as 'CAD' | 'CNY' | null
     const savedLanguage = localStorage.getItem('userPreferredLanguage') as 'zh' | 'en' | null
     
     console.log('🔄 恢复用户状态 - ID:', savedUserId, '昵称:', savedNickname, '货币:', savedCurrency, '语言:', savedLanguage)

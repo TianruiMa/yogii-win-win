@@ -1,24 +1,24 @@
 // 货币转换工具
 import exchangeRateService from '../services/exchangeRate'
 
-export type CurrencyType = 'CAD' | 'RMB'
+export type CurrencyType = 'CAD' | 'CNY'
 
 // 备用汇率常量（当动态汇率不可用时使用）
 const FALLBACK_EXCHANGE_RATES = {
-  CAD_TO_RMB: 5.2,
-  RMB_TO_CAD: 1 / 5.2
+  CAD_TO_CNY: 5.2,
+  CNY_TO_CAD: 1 / 5.2
 }
 
 // 货币符号映射
 export const CURRENCY_SYMBOLS = {
   CAD: '$',
-  RMB: '¥'
+  CNY: '¥'
 } as const
 
 // 货币名称映射
 export const CURRENCY_NAMES = {
   CAD: 'CAD($)',
-  RMB: 'RMB(¥)'
+  CNY: 'CNY(¥)'
 } as const
 
 /**
@@ -37,12 +37,12 @@ export function convertCurrency(
     return amount
   }
 
-  if (fromCurrency === 'CAD' && toCurrency === 'RMB') {
-    return Number((amount * FALLBACK_EXCHANGE_RATES.CAD_TO_RMB).toFixed(2))
+  if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+    return Number((amount * FALLBACK_EXCHANGE_RATES.CAD_TO_CNY).toFixed(2))
   }
 
-  if (fromCurrency === 'RMB' && toCurrency === 'CAD') {
-    return Number((amount * FALLBACK_EXCHANGE_RATES.RMB_TO_CAD).toFixed(2))
+  if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+    return Number((amount * FALLBACK_EXCHANGE_RATES.CNY_TO_CAD).toFixed(2))
   }
 
   return amount
@@ -161,8 +161,8 @@ export async function getExchangeRateInfo(
     
     // 检查是否为备用汇率
     const fallbackKey = `${fromCurrency}_${toCurrency}`
-    const isFallback = (fromCurrency === 'CAD' && toCurrency === 'RMB' && rate === FALLBACK_EXCHANGE_RATES.CAD_TO_RMB) ||
-                       (fromCurrency === 'RMB' && toCurrency === 'CAD' && rate === FALLBACK_EXCHANGE_RATES.RMB_TO_CAD)
+    const isFallback = (fromCurrency === 'CAD' && toCurrency === 'CNY' && rate === FALLBACK_EXCHANGE_RATES.CAD_TO_CNY) ||
+                       (fromCurrency === 'CNY' && toCurrency === 'CAD' && rate === FALLBACK_EXCHANGE_RATES.CNY_TO_CAD)
     
     return {
       rate,

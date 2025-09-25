@@ -6,7 +6,7 @@ interface Room {
   roomId: string
   chipsPerHand: number
   costPerHand: number
-  currency: 'CAD' | 'RMB'
+  currency: 'CAD' | 'CNY'
   createdAt: string
 }
 
@@ -16,7 +16,7 @@ export const useRoomStore = defineStore('room', () => {
   const isInRoom = computed(() => !!currentRoom.value)
 
   // 行为
-  async function createRoom(chipsPerHand: number, bigBlind: number, costPerHand: number, currency: 'CAD' | 'RMB' = 'CAD'): Promise<Room> {
+  async function createRoom(chipsPerHand: number, bigBlind: number, costPerHand: number, currency: 'CAD' | 'CNY' = 'CAD'): Promise<Room> {
     try {
       const response = await api.post('/room/create', {
         chipsPerHand,

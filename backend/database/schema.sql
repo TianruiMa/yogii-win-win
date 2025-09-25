@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS game_sessions (
     chips_per_hand INTEGER NOT NULL,          -- 每手筹码数量
     cost_per_hand INTEGER NOT NULL,           -- 每手成本
     big_blind INTEGER NOT NULL,               -- 大盲注金额
-    currency VARCHAR(3) DEFAULT 'CAD',        -- 房间货币单位: CAD, RMB
+    currency VARCHAR(3) DEFAULT 'CAD',        -- 房间货币单位: CAD, CNY
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 创建时间
     settled_at TIMESTAMP NULL                  -- 结算时间（NULL=进行中，有值=已结算）
 );
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS player_results (
 CREATE TABLE IF NOT EXISTS exchange_rates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     base_currency VARCHAR(3) NOT NULL,         -- 基础货币 (CAD)
-    target_currency VARCHAR(3) NOT NULL,       -- 目标货币 (RMB, USD, EUR等)
+    target_currency VARCHAR(3) NOT NULL,       -- 目标货币 (CNY, USD, EUR等)
     rate DECIMAL(10,6) NOT NULL,               -- 汇率 (精确到6位小数)
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     source VARCHAR(50) DEFAULT 'exchangerate-api',  -- 数据源
@@ -46,7 +46,7 @@ INSERT OR IGNORE INTO system_config (config_key, config_value, description) VALU
 ('exchange_rate_requests_per_day', '10', '每天汇率API请求次数'),
 ('exchange_rate_api_url', 'https://api.exchangerate-api.com/v4/latest/', '汇率API地址'),
 ('exchange_rate_base_currency', 'CAD', '基础货币'),
-('exchange_rate_fallback_cad_rmb', '5.2', '备用CAD到RMB汇率（API失败时使用）');
+('exchange_rate_fallback_cad_cny', '5.2', '备用CAD到CNY汇率（API失败时使用）');
 
 -- 性能优化索引
 

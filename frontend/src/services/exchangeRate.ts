@@ -14,8 +14,8 @@ class ExchangeRateService {
   private cache: ExchangeRateCache = {}
   private readonly CACHE_TTL = 30 * 60 * 1000 // 30分钟缓存
   private readonly FALLBACK_RATES = {
-    'CAD_RMB': 5.2,
-    'RMB_CAD': 1 / 5.2
+    'CAD_CNY': 5.2,
+    'CNY_CAD': 1 / 5.2
   }
 
   /**

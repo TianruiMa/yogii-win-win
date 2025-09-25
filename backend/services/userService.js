@@ -15,14 +15,14 @@ class UserService {
     }
 
     const EXCHANGE_RATES = {
-      CAD_TO_RMB: 5.2,
-      RMB_TO_CAD: 1 / 5.2
+      CAD_TO_CNY: 5.2,
+      CNY_TO_CAD: 1 / 5.2
     };
 
-    if (fromCurrency === 'CAD' && toCurrency === 'RMB') {
-      return Number((amount * EXCHANGE_RATES.CAD_TO_RMB).toFixed(2));
-    } else if (fromCurrency === 'RMB' && toCurrency === 'CAD') {
-      return Number((amount * EXCHANGE_RATES.RMB_TO_CAD).toFixed(2));
+    if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+      return Number((amount * EXCHANGE_RATES.CAD_TO_CNY).toFixed(2));
+    } else if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+      return Number((amount * EXCHANGE_RATES.CNY_TO_CAD).toFixed(2));
     }
 
     return amount; // 默认不转换

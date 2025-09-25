@@ -831,7 +831,7 @@ app.get('/api/exchange-rate/:from/:to', async (req, res) => {
     if (rate === null) {
       return res.status(404).json({ 
         error: `汇率不存在: ${from} → ${to}`,
-        fallback: from === 'CAD' && to.toUpperCase() === 'RMB' ? 5.2 : null
+        fallback: from === 'CAD' && to.toUpperCase() === 'CNY' ? 5.2 : null
       });
     }
     
@@ -850,7 +850,7 @@ app.get('/api/exchange-rate/:from/:to', async (req, res) => {
 // 获取多个汇率
 app.post('/api/exchange-rates', async (req, res) => {
   try {
-    const { rates } = req.body; // [{ from: 'CAD', to: 'RMB' }, ...]
+    const { rates } = req.body; // [{ from: 'CAD', to: 'CNY' }, ...]
     
     if (!Array.isArray(rates)) {
       return res.status(400).json({ error: '请求格式错误' });

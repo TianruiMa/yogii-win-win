@@ -145,8 +145,8 @@ class ExchangeRateService {
       }
 
       // 如果没有任何汇率数据，使用备用汇率
-      if (fromCurrency === 'CAD' && toCurrency === 'RMB') {
-        const fallbackRate = parseFloat(await this.getConfig('exchange_rate_fallback_cad_rmb')) || 5.2;
+      if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+        const fallbackRate = parseFloat(await this.getConfig('exchange_rate_fallback_cad_cny')) || 5.2;
         console.log(`💱 使用备用汇率: ${fromCurrency}→${toCurrency} = ${fallbackRate}`);
         return fallbackRate;
       }
