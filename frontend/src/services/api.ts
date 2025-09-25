@@ -14,8 +14,8 @@ const getApiBase = () => {
     // 本地开发
     return 'http://localhost:3000/api'
   } else {
-    // 生产环境，使用服务器IP
-    return 'http://34.130.185.125:3000/api'
+    // 生产环境，使用HTTPS代理
+    return 'https://yogii-win-win.vercel.app/api'
   }
 }
 
