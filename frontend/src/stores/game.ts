@@ -24,7 +24,7 @@ export const useGameStore = defineStore('game', () => {
   // Settlement state
   const showSettlementDialog = ref(false)
   const settlementData = ref<any[]>([])
-  const settlementRoomInfo = ref<{ chipsPerHand: number, costPerHand: number } | null>(null)
+  const settlementRoomInfo = ref<{ chipsPerHand: number, costPerHand: number, currency: string } | null>(null)
 
   // Getters - 判断当前用户是否是管理员
   const isCurrentUserAdmin = computed(() => {
