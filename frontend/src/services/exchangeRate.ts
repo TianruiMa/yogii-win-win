@@ -1,5 +1,5 @@
 // 动态汇率服务
-import { apiClient } from './api'
+import api from './api'
 
 // 汇率缓存
 interface ExchangeRateCache {
@@ -67,7 +67,7 @@ class ExchangeRateService {
    */
   async fetchRate(from: string, to: string): Promise<number | null> {
     try {
-      const response = await apiClient.get(`/exchange-rate/${from}/${to}`)
+      const response = await api.get(`/exchange-rate/${from}/${to}`)
       
       if (response.data.rate) {
         const rate = response.data.rate
@@ -156,7 +156,7 @@ class ExchangeRateService {
     // 批量请求未缓存的汇率
     if (toFetch.length > 0) {
       try {
-        const response = await apiClient.post('/exchange-rates', {
+        const response = await api.post('/exchange-rates', {
           rates: toFetch
         })
         
