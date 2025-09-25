@@ -80,7 +80,7 @@
                 >
                 <button class="currency-btn" @click="toggleCurrency">
                   <span v-if="currencyType === 'CAD'">CAD $</span>
-                  <span v-else>RMB ¥</span>
+                  <span v-else>CNY ¥</span>
                 </button>
               </div>
             </div>
@@ -169,7 +169,7 @@ const joinForm = ref({
 const joinErrorMessage = ref('')
 
 // 货币切换状态 - 默认为CAD
-const currencyType = ref<'CAD' | 'RMB'>('CAD')
+const currencyType = ref<'CAD' | 'CNY'>('CAD')
 
 // 方法
 function closeCreateDialog() {
@@ -224,7 +224,7 @@ function handleInputBlur(event: Event) {
 
 async function createRoom() {
   try {
-    await roomStore.createRoom(createForm.value.chipsPerHand, createForm.value.bigBlind, createForm.value.costPerHand, currencyType.value as 'CAD' | 'RMB')
+    await roomStore.createRoom(createForm.value.chipsPerHand, createForm.value.bigBlind, createForm.value.costPerHand, currencyType.value)
     closeCreateDialog()
   } catch (error) {
     console.error('Failed to create room:', error)
@@ -251,7 +251,7 @@ async function joinRoom() {
 }
 
 function toggleCurrency() {
-  currencyType.value = currencyType.value === 'CAD' ? 'RMB' : 'CAD'
+  currencyType.value = currencyType.value === 'CAD' ? 'CNY' : 'CAD'
 }
 
 // 监听房间变化，加载对应的游戏数据

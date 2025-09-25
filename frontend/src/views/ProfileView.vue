@@ -632,7 +632,7 @@
                   class="currency-toggle-btn"
                   @click="toggleCurrency"
                 >
-                  {{ addRecordForm.currency === 'CAD' ? 'CAD($)' : 'RMB(¥)' }}
+                  {{ addRecordForm.currency === 'CAD' ? 'CAD($)' : 'CNY(¥)' }}
                 </button>
               </div>
             </div>
@@ -2072,14 +2072,14 @@ function convertCurrency(amount: number, fromCurrency: string, toCurrency: strin
   }
 
   const EXCHANGE_RATES = {
-    CAD_TO_RMB: 5.2,
-    RMB_TO_CAD: 1 / 5.2
+    CAD_TO_CNY: 5.2,
+    CNY_TO_CAD: 1 / 5.2
   }
-
-  if (fromCurrency === 'CAD' && toCurrency === 'RMB') {
-    return Number((amount * EXCHANGE_RATES.CAD_TO_RMB).toFixed(2))
-  } else if (fromCurrency === 'RMB' && toCurrency === 'CAD') {
-    return Number((amount * EXCHANGE_RATES.RMB_TO_CAD).toFixed(2))
+  
+  if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+    return Number((amount * EXCHANGE_RATES.CAD_TO_CNY).toFixed(2))
+  } else if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+    return Number((amount * EXCHANGE_RATES.CNY_TO_CAD).toFixed(2))
   }
 
   return amount // 默认不转换
@@ -2206,7 +2206,7 @@ const addRecordForm = ref({
   chipsPerHand: 1000,
   bigBlind: 10,
   costPerHand: 20,
-  currency: 'CAD' as 'CAD' | 'RMB',
+  currency: 'CAD' as 'CAD' | 'CNY',
   hands: 1,
   finalChips: 1000
 })
@@ -2223,7 +2223,7 @@ function closeAddRecord() {
 
 // 切换货币
 function toggleCurrency() {
-  addRecordForm.value.currency = addRecordForm.value.currency === 'CAD' ? 'RMB' : 'CAD'
+  addRecordForm.value.currency = addRecordForm.value.currency === 'CAD' ? 'CNY' : 'CAD'
 }
 
 function validateDuration(event: Event) {
@@ -2329,7 +2329,7 @@ async function submitAddRecord() {
 
 // 货币偏好循环切换
 async function cycleCurrency() {
-  const currencies: ('CAD' | 'RMB')[] = ['CAD', 'RMB']
+  const currencies: ('CAD' | 'CNY')[] = ['CAD', 'CNY']
   const currentIndex = currencies.indexOf(userStore.preferredCurrency)
   const nextIndex = (currentIndex + 1) % currencies.length
   userStore.updatePreferredCurrency(currencies[nextIndex])
@@ -2353,7 +2353,7 @@ function cycleLanguage() {
 
 // 获取货币显示文本
 function getCurrencyDisplay(): string {
-  return userStore.preferredCurrency === 'CAD' ? 'CAD($)' : 'RMB(¥)'
+  return userStore.preferredCurrency === 'CAD' ? 'CAD($)' : 'CNY(¥)'
 }
 
 // 获取语言显示文本

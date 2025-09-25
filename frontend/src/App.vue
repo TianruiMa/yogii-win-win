@@ -9,7 +9,7 @@
           <div class="settlement-header">
             <h3>{{ t('settlement.title') }}</h3>
             <button @click="toggleSettlementCurrency" class="currency-toggle-btn">
-              {{ settlementDisplayCurrency === 'CAD' ? 'CAD($)' : 'RMB(¥)' }}
+              {{ settlementDisplayCurrency === 'CAD' ? 'CAD($)' : 'CNY(¥)' }}
             </button>
           </div>
           
@@ -58,7 +58,7 @@ const roomStore = useRoomStore()
 const { t } = useI18n()
 
 // 结算弹窗的货币显示状态（独立于用户偏好）
-const settlementDisplayCurrency = ref<'CAD' | 'RMB'>('CAD')
+const settlementDisplayCurrency = ref<'CAD' | 'CNY'>('CAD')
 
 // 监控结算弹窗状态变化
 watch(
@@ -93,7 +93,7 @@ const getProfitClass = (profit: number | null) => {
 
 // 切换结算弹窗的货币显示
 function toggleSettlementCurrency() {
-  settlementDisplayCurrency.value = settlementDisplayCurrency.value === 'CAD' ? 'RMB' : 'CAD'
+  settlementDisplayCurrency.value = settlementDisplayCurrency.value === 'CAD' ? 'CNY' : 'CAD'
 }
 
 // 格式化利润显示
