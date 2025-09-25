@@ -284,7 +284,7 @@ onMounted(async () => {
   // Visual Viewport API 支持（更准确的键盘检测）
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => {
-      const currentHeight = window.visualViewport.height || window.innerHeight
+      const currentHeight = window.visualViewport?.height || window.innerHeight
       const heightDifference = originalViewportHeight - currentHeight
       const wasKeyboardOpen = isKeyboardOpen
       isKeyboardOpen = heightDifference > 150

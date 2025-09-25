@@ -85,7 +85,7 @@
         <!-- RM-Chips -->
         <div class="chips-section">
           <input
-            :value="player.chips === null || player.chips === undefined || player.chips === '' ? '' : player.chips"
+            :value="player.chips === null || player.chips === undefined ? '' : String(player.chips)"
             @input="updatePlayerChips(player.id, $event)"
             @focus="clearChipsOnFocus($event)"
             type="number"
