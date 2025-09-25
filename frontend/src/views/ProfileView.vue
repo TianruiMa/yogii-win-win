@@ -102,10 +102,10 @@
       <!-- 第二行 -->
       <div class="stat-card">
         <div class="stat-value" :class="{ 
-          'positive': userStats.totalProfit > 0, 
-          'negative': userStats.totalProfit < 0 
+          'positive': convertedTotalProfit > 0, 
+          'negative': convertedTotalProfit < 0 
         }">
-          {{ formatProfitWithCurrencyFourDigits(userStats.totalProfit) }}
+          {{ formatProfitWithCurrencyFourDigits(convertedTotalProfit) }}
         </div>
         <div class="stat-label">{{ t('records.totalProfit') }}</div>
       </div>
@@ -1021,6 +1021,13 @@ const profitPerHour = computed(() => {
   if (userStats.value.totalHours === 0) return 0
   const hourlyProfit = userStats.value.totalProfit / userStats.value.totalHours
   return Math.round(hourlyProfit * 10) / 10
+})
+
+// 转换后的累计盈亏（根据用户当前货币偏好重新计算）
+const convertedTotalProfit = computed(() => {
+  // userStats.totalProfit 存储的是CAD货币的金额
+  // 需要根据用户偏好转换为对应货币显示
+  return convertCurrency(userStats.value.totalProfit, 'CAD', userStore.preferredCurrency)
 })
 
 const chartData = computed(() => {
