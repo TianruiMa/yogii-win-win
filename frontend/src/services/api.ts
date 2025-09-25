@@ -160,32 +160,6 @@ const api = {
     }
     
     return response.json()
-  },
-
-  // 通用GET方法（用于汇率API等）
-  async get(endpoint: string): Promise<any> {
-    const response = await fetch(`${API_BASE}${endpoint}`)
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    return { data: await response.json() }
-  },
-
-  // 通用POST方法（用于汇率API等）
-  async post(endpoint: string, data?: any): Promise<any> {
-    const response = await fetch(`${API_BASE}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data ? JSON.stringify(data) : undefined
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    return { data: await response.json() }
   }
 }
 
