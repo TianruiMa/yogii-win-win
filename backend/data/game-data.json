@@ -1,0 +1,70 @@
+{
+  "currentChips": 1000,
+  "currentAdminId": 1,
+  "players": [
+    {
+      "id": 1,
+      "nickname": "Bird",
+      "hands": 3,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": true
+    },
+    {
+      "id": 3,
+      "nickname": "Bug",
+      "hands": 2,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757966503126,
+      "nickname": "Ghjgchchchcych",
+      "hands": 2,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757966967788,
+      "nickname": "Hatch",
+      "hands": 2,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757968984140,
+      "nickname": "Bug",
+      "hands": 5,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757968989415,
+      "nickname": "Hcvj",
+      "hands": 3,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757970628907,
+      "nickname": "Fxgcgch",
+      "hands": 42,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    },
+    {
+      "id": 1757970632648,
+      "nickname": "Chchcgchchvhvy",
+      "hands": 1,
+      "chips": 0,
+      "profit": 0,
+      "isAdmin": false
+    }
+  ]
+}

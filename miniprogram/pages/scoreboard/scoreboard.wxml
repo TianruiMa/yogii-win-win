@@ -1,0 +1,204 @@
+<!--scoreboard.wxml-->
+<scroll-view class="container" scroll-y type="list">
+  <!-- Test Mode Admin Status (Top) -->
+  <view wx:if="{{isTestMode}}" class="test-mode-info">
+    <text class="admin-status">Admin: {{isCurrentUserAdmin ? 'ON' : 'OFF'}}</text>
+  </view>
+
+  <!-- Header Area -->
+  <view class="header">
+    <view class="header-content">
+      <!-- QR Code Area (Left Side) -->
+      <view class="qr-code-area" bindtap="showQRCode">
+        <image src="/images/qrcode.png" class="qr-code-image" mode="aspectFit"></image>
+      </view>
+      
+      <!-- Right Side Content -->
+      <view class="right-content">
+                    <!-- Current Per Hand Label -->
+                    <view class="chips-label-row">
+                      <text class="chips-label">Current Per Set</text>
+                    </view>
+        
+        <!-- Editable Amount -->
+        <view class="chips-amount-row">
+          <input 
+            type="number" 
+            input-type="number"
+            class="chips-amount-input" 
+            value="{{currentChips}}" 
+            bindinput="onChipsAmountChange"
+            placeholder="1000"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Player List Header -->
+  <view class="list-header">
+    <text class="col-nickname">Name ({{players.length}})</text>
+    <text class="col-hands">Sets</text>
+    <text class="col-chips">RM-Points</text>
+              <text class="col-profit">Balance</text>
+  </view>
+
+  <!-- Players List -->
+  <view class="players-list">
+    <view class="player-item" wx:for="{{players}}" wx:key="id">
+      <!-- Player Info -->
+      <view class="player-info">
+        <!-- Delete button (only visible to admin and not for admin players) -->
+        <view wx:if="{{isCurrentUserAdmin && !item.isAdmin}}" 
+              class="delete-player-btn" 
+              data-player-id="{{item.id}}"
+              data-player-name="{{item.nickname}}"
+              bindtap="deletePlayer">×</view>
+        <!-- Editable player name -->
+        <view wx:if="{{editingPlayerId === item.id}}" class="name-edit-container">
+          <input 
+            type="text" 
+            class="name-edit-input {{item.isAdmin ? 'admin-nickname' : ''}}"
+            value="{{editingPlayerName}}"
+            bindinput="onEditNameInput"
+            bindconfirm="confirmNameEdit"
+            bindblur="confirmNameEdit"
+            focus="{{true}}"
+            confirm-type="done"
+            maxlength="12"
+            catchtap="stopPropagation"
+          />
+        </view>
+        <!-- Display player name -->
+        <text wx:else 
+              class="player-nickname {{item.isAdmin ? 'admin-nickname' : ''}}" 
+              data-player-id="{{item.id}}" 
+              data-player-name="{{item.nickname}}"
+              bindtap="startNameEdit"
+              bindlongpress="onPlayerNameLongPress">{{item.nickname}}</text>
+      </view>
+
+       <!-- Hands Control Buttons -->
+       <view class="hands-control">
+         <view class="hands-buttons">
+           <text class="control-btn down" 
+                 data-index="{{index}}" 
+                 bindtap="adjustHandsDown"
+                 bindlongpress="startLongPressDown"
+                 bindtouchend="stopLongPress"
+                 bindtouchcancel="stopLongPress">▼</text>
+           <text class="hands-value">{{item.hands}}</text>
+           <text class="control-btn up" data-index="{{index}}" bindtap="adjustHandsUp">▲</text>
+           <text class="control-btn double-up" data-index="{{index}}" bindtap="adjustHandsDoubleUp">⏏</text>
+         </view>
+       </view>
+
+      <!-- Remaining Chips Input -->
+      <view class="chips-input">
+        <input 
+          type="number" 
+          input-type="number"
+          placeholder="Enter" 
+          value="{{item.chips === 0 ? '' : item.chips}}" 
+          data-index="{{index}}" 
+          bindinput="onChipsInput"
+          class="chips-input-field"
+          disabled="{{!isCurrentUserAdmin && item.id !== currentUserId}}"
+        />
+      </view>
+
+      <!-- Profit Display -->
+      <view class="profit-display">
+        <text class="profit-value {{item.profit >= 0 ? 'profit-positive' : 'profit-negative'}}">{{item.profit}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Bottom Statistics -->
+  <view class="bottom-stats">
+    <view class="stats-row stats-labels">
+      <view class="stat-column">
+        <text class="stat-label">Expected</text>
+      </view>
+      <view class="stat-column">
+        <text class="stat-label">Actual</text>
+      </view>
+      <view class="stat-column">
+        <text class="stat-label">Result</text>
+      </view>
+    </view>
+    <view class="stats-row stats-values">
+      <view class="stat-column">
+        <text class="stat-expected">{{totalUp}}</text>
+      </view>
+      <view class="stat-column">
+        <text class="stat-actual">{{totalDown}}</text>
+      </view>
+      <view class="stat-column">
+        <text class="stat-positive" wx:if="{{finalResult === 0}}">Balanced</text>
+        <text class="stat-negative" wx:elif="{{finalResult > 0}}">+{{finalResult}}</text>
+        <text class="stat-negative" wx:else>{{finalResult}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Bottom Action Buttons -->
+  <view class="bottom-actions">
+    <button wx:if="{{isCurrentUserAdmin}}" class="action-btn clear-btn" bindtap="clearData">Clear Data</button>
+    <button wx:if="{{isCurrentUserAdmin}}" class="action-btn add-btn" bindtap="addPlayer">Add Player</button>
+    <button class="action-btn record-btn" bindtap="recordResults">Record Results</button>
+  </view>
+</scroll-view>
+
+<!-- Custom Add Sets Dialog -->
+<view class="dialog-overlay" wx:if="{{showAddSetsDialog}}" bindtap="hideAddSetsDialog">
+  <view class="dialog-content" catchtap="">
+    <view class="dialog-header">
+      <text class="dialog-title">Add Sets</text>
+    </view>
+    
+    <!-- Quick Action Buttons -->
+    <view class="dialog-quick-buttons">
+      <button class="quick-btn" bindtap="addQuickSets" data-amount="3">+3</button>
+      <button class="quick-btn" bindtap="addQuickSets" data-amount="5">+5</button>
+      <button class="quick-btn" bindtap="addQuickSets" data-amount="10">+10</button>
+    </view>
+    
+    <!-- Custom Input -->
+    <view class="dialog-input-section" catchtap="stopPropagation">
+      <input 
+        type="number" 
+        input-type="number"
+        class="dialog-input" 
+        placeholder="Enter custom amount"
+        value="{{customSetsAmount}}"
+        bindinput="onCustomSetsInput"
+        catchtap="stopPropagation"
+        catchfocus="stopPropagation"
+        maxlength="3"
+        confirm-type="done"
+      />
+    </view>
+    
+    <!-- Action Buttons -->
+    <view class="dialog-actions">
+      <button class="dialog-btn cancel-btn" bindtap="hideAddSetsDialog">Cancel</button>
+      <button class="dialog-btn confirm-btn" bindtap="confirmAddSets">Confirm</button>
+    </view>
+  </view>
+</view>
+
+<!-- QR Code Dialog -->
+<view class="qr-dialog-overlay" wx:if="{{showQRDialog}}" bindtap="hideQRCode">
+  <view class="qr-dialog-content" catchtap="">
+    <view class="qr-dialog-body">
+      <image src="/images/qrcode.png" class="qr-dialog-image" mode="aspectFit"></image>
+    </view>
+    <view class="qr-dialog-footer">
+      <button class="qr-share-btn" open-type="share">
+        <text class="share-text">Share</text>
+        <image src="/images/share.png" class="share-icon" mode="aspectFit"></image>
+      </button>
+    </view>
+  </view>
+</view>

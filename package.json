@@ -1,0 +1,23 @@
+{
+  "name": "yogii-win-win",
+  "version": "1.0.0",
+  "description": "Texas Holdem scoring system with real-time sync",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": ["texas-holdem", "poker", "scoring", "real-time", "vue", "nodejs"],
+  "author": "Yogii",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,627 @@
+/* scoreboard.wxss */
+.container {
+  height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* 头部区域 */
+.header {
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 30rpx;
+}
+
+/* QR Code区域 - 左侧 */
+.qr-code-area {
+  width: 120rpx;
+  height: 120rpx;
+  border: 2rpx dashed #ccc;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qr-code-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 右侧内容区域 */
+.right-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+.chips-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.chips-label {
+  font-size: 28rpx;
+  color: #666;
+  font-weight: 500;
+  text-align: center;
+}
+
+.chips-amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.chips-amount-input {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #4CAF50;
+  border: 2rpx solid transparent;
+  background: transparent;
+  padding: 8rpx 12rpx;
+  max-width: 200rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  transition: all 0.3s ease;
+}
+
+.chips-amount-input:focus {
+  border-color: #4CAF50;
+  background-color: #f8fff8;
+}
+
+/* 列表头部 */
+.list-header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 15rpx;
+  background-color: white;
+  border-radius: 15rpx 15rpx 0 0;
+  font-size: 26rpx;
+  color: #666;
+  font-weight: bold;
+}
+
+.col-nickname {
+  width: 160rpx;
+  flex-shrink: 0;
+}
+
+.col-hands {
+  width: 220rpx;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.col-chips {
+  width: 140rpx;
+  flex-shrink: 0;
+  text-align: center;
+  padding-left: 45rpx;
+}
+
+.col-profit {
+  flex: 1;
+  text-align: center;
+  padding-right: 15rpx;
+  min-width: 80rpx;
+}
+
+/* 玩家列表 */
+.players-list {
+  background-color: white;
+  border-radius: 0 0 15rpx 15rpx;
+  overflow: hidden;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 15rpx;
+}
+
+/* 玩家信息 */
+.player-info {
+  width: 160rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 15rpx;
+  position: relative;
+}
+
+.player-nickname {
+  font-size: 24rpx;
+  color: #333;
+  flex: 1;
+  font-weight: 400;
+  margin-left: 12rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120rpx;
+}
+
+.admin-nickname {
+  color: #e53e3e !important;
+  font-weight: bold !important;
+}
+
+.delete-player-btn {
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  font-size: 14rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+}
+
+.delete-player-btn:active {
+  background-color: #cc3333;
+  transform: scale(0.9);
+}
+
+/* Name editing */
+.name-edit-container {
+  flex: 1;
+  margin-left: 12rpx;
+}
+
+.name-edit-input {
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 400;
+  background: transparent;
+  border: 1rpx solid #4CAF50;
+  border-radius: 4rpx;
+  padding: 4rpx 8rpx;
+  width: 100%;
+  max-width: 120rpx;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name-edit-input.admin-nickname {
+  color: #e53e3e;
+  font-weight: bold;
+}
+
+/* Hands Control */
+.hands-control {
+  width: 220rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hands-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.control-btn {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+  border: 1rpx solid #ddd;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  color: #4CAF50;
+  font-weight: normal;
+}
+
+.control-btn:active {
+  background-color: #e8e8e8;
+}
+
+.double-up {
+  color: #2196F3;
+  font-size: 16rpx;
+}
+
+.hands-value {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: #333;
+  min-width: 50rpx;
+  text-align: center;
+}
+
+/* 码量输入 */
+.chips-input {
+  width: 140rpx;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-left: 45rpx;
+}
+
+.chips-input-field {
+  width: 100rpx;
+  height: 50rpx;
+  border: 2rpx solid transparent;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  background: transparent;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.chips-input-field::placeholder {
+  color: #e6e6e6;
+}
+
+.chips-input-field:focus {
+  border-color: #4CAF50;
+  background-color: #f8fff8;
+}
+
+.chips-input-field:disabled {
+  background-color: transparent;
+  color: #333;
+  opacity: 1;
+}
+
+/* 盈亏显示 */
+.profit-display {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding-right: 15rpx;
+  min-width: 80rpx;
+}
+
+.profit-value {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.profit-positive {
+  color: #4CAF50;
+}
+
+.profit-negative {
+  color: #f44336;
+}
+
+/* 底部统计 */
+.bottom-stats {
+  padding: 30rpx;
+  background-color: white;
+  border-radius: 15rpx;
+  margin: 20rpx 0;
+}
+
+.stat-item {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.stat-positive {
+  color: #4CAF50 !important;
+  font-weight: bold;
+}
+
+.stat-negative {
+  color: #f44336 !important;
+  font-weight: bold;
+}
+
+.stat-label {
+  color: #000;
+  font-weight: bold;
+  font-size: 24rpx;
+}
+
+.stat-expected {
+  color: #4CAF50;
+  font-weight: normal;
+}
+
+.stat-actual {
+  color: #2196F3;
+  font-weight: normal;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.stats-labels {
+  margin-bottom: 12rpx;
+}
+
+.stats-labels .stat-label {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: #000;
+}
+
+.stats-values {
+  font-size: 26rpx;
+}
+
+.stat-column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-column text {
+  text-align: center;
+}
+
+/* 底部功能按钮 */
+.bottom-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 120rpx; /* 为底部导航栏留出空间 */
+  justify-content: center; /* 当只有一个按钮时居中显示 */
+}
+
+.action-btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 15rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-btn {
+  background-color: #f8f8f8;
+  color: #666;
+  border: 1rpx solid #ddd;
+}
+
+.add-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.record-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+/* Custom Add Sets Dialog */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-content {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  margin: 40rpx;
+  max-width: 500rpx;
+  width: 80%;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.dialog-header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.dialog-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.dialog-quick-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.quick-btn {
+  flex: 1;
+  height: 80rpx;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-btn:active {
+  background-color: #45a049;
+  transform: scale(0.98);
+}
+
+.dialog-input-section {
+  margin-bottom: 40rpx;
+  padding: 0;
+}
+
+.dialog-input {
+  width: 100%;
+  height: 80rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 32rpx;
+  text-align: center;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  display: block;
+}
+
+.dialog-input:focus {
+  border-color: #4CAF50;
+  background-color: #f8fff8;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.dialog-btn {
+  flex: 1;
+  height: 80rpx;
+  border: none;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.cancel-btn:active {
+  background-color: #e0e0e0;
+}
+
+.confirm-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.confirm-btn:active {
+  background-color: #45a049;
+}
+
+/* Test Mode Admin Status */
+.test-mode-info {
+  padding: 20rpx;
+  text-align: center;
+  background-color: #fff3cd;
+  border: 1rpx solid #ffeaa7;
+  border-radius: 8rpx;
+  margin: 20rpx;
+}
+
+/* QR Code Dialog */
+.qr-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.qr-dialog-content {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  margin: 40rpx;
+  width: 600rpx;
+  height: 600rpx;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.qr-dialog-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.qr-dialog-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.qr-share-btn {
+  background-color: #FFA500;
+  color: black;
+  border: none;
+  border-radius: 20rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.share-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.share-text {
+  font-size: 28rpx;
+}
+
+.qr-dialog-image {
+  width: 480rpx;
+  height: 480rpx;
+}
+
+.admin-status {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #856404;
+}

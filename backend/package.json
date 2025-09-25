@@ -1,0 +1,19 @@
+{
+  "name": "yogii-win-win-backend",
+  "version": "1.0.0",
+  "description": "Texas Holdem scoring backend",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.5",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.6"
+  },
+  "author": "Yogii",
+  "license": "MIT"
+}

@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/scoreboard/scoreboard",
+    "pages/results/results",
+    "pages/more/more",
+    "pages/tips/tips",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Yogii-win-win",
+    "navigationBarBackgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#4CAF50",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/scoreboard/scoreboard",
+        "text": "Scoreboard",
+        "iconPath": "images/Icon1.png",
+        "selectedIconPath": "images/Icon1.png"
+      },
+      {
+        "pagePath": "pages/results/results",
+        "text": "Results",
+        "iconPath": "images/Icon2.png",
+        "selectedIconPath": "images/Icon2.png"
+      }
+    ],
+    "position": "bottom"
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "lazyCodeLoading": "requiredComponents",
+  "miniApp": {
+    "useAuthorizePage": true
+  }
+}
