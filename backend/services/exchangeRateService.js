@@ -144,9 +144,30 @@ class ExchangeRateService {
         return parseFloat(result.rate);
       }
 
+      // 尝试反向查找并计算
+      const reverseResult = await database.get(`
+        SELECT rate, updated_at 
+        FROM exchange_rates 
+        WHERE base_currency = ? AND target_currency = ?
+        ORDER BY updated_at DESC 
+        LIMIT 1
+      `, [toCurrency, fromCurrency]);
+
+      if (reverseResult) {
+        const reverseRate = 1 / parseFloat(reverseResult.rate);
+        console.log(`💱 使用反向汇率计算: ${fromCurrency}→${toCurrency} = ${reverseRate} (基于${toCurrency}→${fromCurrency} = ${reverseResult.rate})`);
+        return reverseRate;
+      }
+
       // 如果没有任何汇率数据，使用备用汇率
       if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
         const fallbackRate = parseFloat(await this.getConfig('exchange_rate_fallback_cad_cny')) || 5.2;
+        console.log(`💱 使用备用汇率: ${fromCurrency}→${toCurrency} = ${fallbackRate}`);
+        return fallbackRate;
+      }
+
+      if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+        const fallbackRate = 1 / (parseFloat(await this.getConfig('exchange_rate_fallback_cad_cny')) || 5.2);
         console.log(`💱 使用备用汇率: ${fromCurrency}→${toCurrency} = ${fallbackRate}`);
         return fallbackRate;
       }
