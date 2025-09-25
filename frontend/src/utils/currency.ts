@@ -5,8 +5,8 @@ export type CurrencyType = 'CAD' | 'CNY'
 
 // 备用汇率常量（当动态汇率不可用时使用）
 const FALLBACK_EXCHANGE_RATES = {
-  CAD_TO_CNY: 5.2,
-  CNY_TO_CAD: 1 / 5.2
+  CAD_TO_CNY: 5.14,
+  CNY_TO_CAD: 1 / 5.14
 }
 
 // 货币符号映射
