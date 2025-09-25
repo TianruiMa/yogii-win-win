@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS exchange_rates (
     rate DECIMAL(10,6) NOT NULL,               -- 汇率 (精确到6位小数)
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     source VARCHAR(50) DEFAULT 'exchangerate-api',  -- 数据源
-    UNIQUE(base_currency, target_currency, DATE(updated_at))
+    UNIQUE(base_currency, target_currency)
 );
 
 -- 系统配置表（存储可调节的配置参数）
