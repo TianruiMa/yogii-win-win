@@ -84,6 +84,40 @@ class ExchangeRateService {
   }
 
   /**
+   * 同步获取汇率（仅从缓存，没有则返回备用汇率）
+   */
+  getRateSync(from: string, to: string): number {
+    // 1. 相同货币
+    if (from.toUpperCase() === to.toUpperCase()) {
+      return 1
+    }
+
+    // 2. 检查缓存
+    const cachedRate = this.getFromCache(from, to)
+    if (cachedRate !== null) {
+      return cachedRate
+    }
+
+    // 3. 使用备用汇率
+    const fallbackKey = this.getCacheKey(from, to)
+    const fallbackRate = this.FALLBACK_RATES[fallbackKey as keyof typeof this.FALLBACK_RATES]
+    
+    if (fallbackRate) {
+      return fallbackRate
+    }
+
+    // 4. 反向计算
+    const reverseKey = this.getCacheKey(to, from)
+    const reverseRate = this.FALLBACK_RATES[reverseKey as keyof typeof this.FALLBACK_RATES]
+    
+    if (reverseRate) {
+      return 1 / reverseRate
+    }
+
+    return 1 // 默认不转换
+  }
+
+  /**
    * 获取汇率（缓存优先，然后API，最后备用）
    */
   async getRate(from: string, to: string): Promise<number> {

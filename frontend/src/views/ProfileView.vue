@@ -813,6 +813,7 @@ import { ref, computed, onMounted, nextTick, reactive } from 'vue'
 import { useUserStore } from '../stores/user'
 import { useI18n } from '../composables/useI18n'
 import api from '../services/api'
+import { convertCurrency, convertCurrencyAsync, formatCurrency } from '../utils/currency'
 
 // 类型定义
 interface ChartPoint {
@@ -2065,25 +2066,7 @@ async function loadRecentGames() {
   }
 }
 
-// 前端货币转换函数（与后端逻辑保持一致）
-function convertCurrency(amount: number, fromCurrency: string, toCurrency: string): number {
-  if (fromCurrency === toCurrency) {
-    return amount
-  }
-
-  const EXCHANGE_RATES = {
-    CAD_TO_CNY: 5.2,
-    CNY_TO_CAD: 1 / 5.2
-  }
-  
-  if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
-    return Number((amount * EXCHANGE_RATES.CAD_TO_CNY).toFixed(2))
-  } else if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
-    return Number((amount * EXCHANGE_RATES.CNY_TO_CAD).toFixed(2))
-  }
-
-  return amount // 默认不转换
-}
+// 已删除本地convertCurrency函数，使用utils/currency.ts中的动态汇率函数
 
 // 格式化气泡显示的数值
 function formatBubbleValue(profit: number): string {

@@ -22,7 +22,7 @@ export const CURRENCY_NAMES = {
 } as const
 
 /**
- * 转换货币金额（同步版本，使用备用汇率）
+ * 转换货币金额（同步版本，使用缓存的动态汇率或备用汇率）
  * @param amount 金额
  * @param fromCurrency 源货币
  * @param toCurrency 目标货币
@@ -37,15 +37,24 @@ export function convertCurrency(
     return amount
   }
 
-  if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
-    return Number((amount * FALLBACK_EXCHANGE_RATES.CAD_TO_CNY).toFixed(2))
-  }
+  try {
+    // 使用汇率服务的同步方法（优先缓存，备用汇率作为降级）
+    const rate = exchangeRateService.getRateSync(fromCurrency, toCurrency)
+    return Number((amount * rate).toFixed(2))
+  } catch (error) {
+    console.warn('同步汇率转换失败，使用备用汇率:', error)
+    
+    // 备用逻辑
+    if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+      return Number((amount * FALLBACK_EXCHANGE_RATES.CAD_TO_CNY).toFixed(2))
+    }
 
-  if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
-    return Number((amount * FALLBACK_EXCHANGE_RATES.CNY_TO_CAD).toFixed(2))
-  }
+    if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+      return Number((amount * FALLBACK_EXCHANGE_RATES.CNY_TO_CAD).toFixed(2))
+    }
 
-  return amount
+    return amount
+  }
 }
 
 /**
