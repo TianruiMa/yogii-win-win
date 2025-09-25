@@ -10,6 +10,7 @@ import database from './database/database.js';
 import userService from './services/userService.js';
 import roomService from './services/roomService.js';
 import recordService from './services/recordService.js';
+import exchangeRateService from './services/exchangeRateService.js';
 
 const app = express();
 const server = createServer(app);
@@ -817,6 +818,115 @@ process.on('SIGINT', async () => {
   } catch (error) {
     console.error('Error during shutdown:', error);
     process.exit(1);
+  }
+});
+
+// 汇率相关路由
+// 获取单个汇率
+app.get('/api/exchange-rate/:from/:to', async (req, res) => {
+  try {
+    const { from, to } = req.params;
+    const rate = await exchangeRateService.getRate(from.toUpperCase(), to.toUpperCase());
+    
+    if (rate === null) {
+      return res.status(404).json({ 
+        error: `汇率不存在: ${from} → ${to}`,
+        fallback: from === 'CAD' && to.toUpperCase() === 'RMB' ? 5.2 : null
+      });
+    }
+    
+    res.json({
+      from: from.toUpperCase(),
+      to: to.toUpperCase(),
+      rate: rate,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('获取汇率失败:', error);
+    res.status(500).json({ error: '服务器错误' });
+  }
+});
+
+// 获取多个汇率
+app.post('/api/exchange-rates', async (req, res) => {
+  try {
+    const { rates } = req.body; // [{ from: 'CAD', to: 'RMB' }, ...]
+    
+    if (!Array.isArray(rates)) {
+      return res.status(400).json({ error: '请求格式错误' });
+    }
+    
+    const results = {};
+    
+    for (const { from, to } of rates) {
+      const rate = await exchangeRateService.getRate(from.toUpperCase(), to.toUpperCase());
+      results[`${from.toUpperCase()}_${to.toUpperCase()}`] = {
+        from: from.toUpperCase(),
+        to: to.toUpperCase(),
+        rate: rate,
+        available: rate !== null
+      };
+    }
+    
+    res.json({
+      rates: results,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('批量获取汇率失败:', error);
+    res.status(500).json({ error: '服务器错误' });
+  }
+});
+
+// 汇率服务状态
+app.get('/api/exchange-rate/status', async (req, res) => {
+  try {
+    const status = await exchangeRateService.getStatus();
+    res.json(status);
+  } catch (error) {
+    console.error('获取汇率服务状态失败:', error);
+    res.status(500).json({ error: '服务器错误' });
+  }
+});
+
+// 更新汇率配置（管理接口）
+app.post('/api/exchange-rate/config', async (req, res) => {
+  try {
+    const { requestsPerDay } = req.body;
+    
+    if (!requestsPerDay || requestsPerDay < 1 || requestsPerDay > 100) {
+      return res.status(400).json({ error: '请求次数必须在1-100之间' });
+    }
+    
+    const success = await exchangeRateService.updateConfig('exchange_rate_requests_per_day', requestsPerDay.toString());
+    
+    if (success) {
+      res.json({ 
+        message: `汇率请求频率已更新为 ${requestsPerDay} 次/天`,
+        requestsPerDay: requestsPerDay
+      });
+    } else {
+      res.status(500).json({ error: '配置更新失败' });
+    }
+  } catch (error) {
+    console.error('更新汇率配置失败:', error);
+    res.status(500).json({ error: '服务器错误' });
+  }
+});
+
+// 手动刷新汇率（管理接口）
+app.post('/api/exchange-rate/refresh', async (req, res) => {
+  try {
+    const success = await exchangeRateService.fetchRatesFromAPI();
+    
+    if (success) {
+      res.json({ message: '汇率刷新成功' });
+    } else {
+      res.status(429).json({ error: '已达到今日API请求限制或网络错误' });
+    }
+  } catch (error) {
+    console.error('手动刷新汇率失败:', error);
+    res.status(500).json({ error: '服务器错误' });
   }
 });
 

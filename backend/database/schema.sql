@@ -21,6 +21,33 @@ CREATE TABLE IF NOT EXISTS player_results (
     FOREIGN KEY (room_id) REFERENCES game_sessions(room_id)
 );
 
+-- 汇率表（存储实时汇率数据）
+CREATE TABLE IF NOT EXISTS exchange_rates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    base_currency VARCHAR(3) NOT NULL,         -- 基础货币 (CAD)
+    target_currency VARCHAR(3) NOT NULL,       -- 目标货币 (RMB, USD, EUR等)
+    rate DECIMAL(10,6) NOT NULL,               -- 汇率 (精确到6位小数)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    source VARCHAR(50) DEFAULT 'exchangerate-api',  -- 数据源
+    UNIQUE(base_currency, target_currency, DATE(updated_at))
+);
+
+-- 系统配置表（存储可调节的配置参数）
+CREATE TABLE IF NOT EXISTS system_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    config_key VARCHAR(100) NOT NULL UNIQUE,   -- 配置键
+    config_value TEXT NOT NULL,                -- 配置值
+    description TEXT,                          -- 配置说明
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 插入默认配置
+INSERT OR IGNORE INTO system_config (config_key, config_value, description) VALUES
+('exchange_rate_requests_per_day', '10', '每天汇率API请求次数'),
+('exchange_rate_api_url', 'https://api.exchangerate-api.com/v4/latest/', '汇率API地址'),
+('exchange_rate_base_currency', 'CAD', '基础货币'),
+('exchange_rate_fallback_cad_rmb', '5.2', '备用CAD到RMB汇率（API失败时使用）');
+
 -- 性能优化索引
 
 -- 游戏会话查询优化
