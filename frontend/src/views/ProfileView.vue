@@ -814,6 +814,7 @@ import { useUserStore } from '../stores/user'
 import { useI18n } from '../composables/useI18n'
 import api from '../services/api'
 import { convertCurrency, convertCurrencyAsync, formatCurrency } from '../utils/currency'
+import exchangeRateService from '../services/exchangeRate'
 
 // 类型定义
 interface ChartPoint {
@@ -2352,6 +2353,16 @@ onMounted(async () => {
   // 确保用户已初始化
   if (!userStore.isInitialized) {
     await userStore.initializeUser()
+  }
+  
+  // 预加载汇率到缓存（确保同步转换函数能获取到正确汇率）
+  try {
+    console.log('📊 ProfileView: 预加载汇率...')
+    await exchangeRateService.getRate('CAD', 'CNY')
+    await exchangeRateService.getRate('CNY', 'CAD')
+    console.log('✅ ProfileView: 汇率预加载完成')
+  } catch (error) {
+    console.warn('⚠️ ProfileView: 汇率预加载失败，将使用备用汇率:', error)
   }
   
   await loadUserStats()
