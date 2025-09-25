@@ -40,7 +40,9 @@ export function convertCurrency(
   try {
     // 使用汇率服务的同步方法（优先缓存，备用汇率作为降级）
     const rate = exchangeRateService.getRateSync(fromCurrency, toCurrency)
-    return Number((amount * rate).toFixed(2))
+    const result = Number((amount * rate).toFixed(2))
+    console.log(`🔄 convertCurrency: ${amount} ${fromCurrency}→${toCurrency} rate=${rate} result=${result}`)
+    return result
   } catch (error) {
     console.warn('同步汇率转换失败，使用备用汇率:', error)
     
