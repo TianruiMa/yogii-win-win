@@ -133,7 +133,7 @@ export const useGameStore = defineStore('game', () => {
     }).sort((a, b) => b.profit - a.profit) // 按收益从高到低排序
     
     settlementData.value = sortedPlayers
-    settlementRoomInfo.value = roomInfo
+    settlementRoomInfo.value = { ...roomInfo, currency: 'CAD' }
     showSettlementDialog.value = true
   }
   

@@ -104,7 +104,7 @@ function formatProfitDisplay(profit: number | null): string {
   const roomCurrency = gameStore.settlementRoomInfo?.currency || 'CAD'
   const displayCurrency = settlementDisplayCurrency.value
   
-  return convertAndFormatCurrency(profit, roomCurrency, displayCurrency, true)
+  return convertAndFormatCurrency(profit, roomCurrency as any, displayCurrency, true)
 }
 
 
