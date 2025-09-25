@@ -11,11 +11,15 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { path } = req.query;
+  const { path, ...queryParams } = req.query;
   const apiPath = Array.isArray(path) ? path.join('/') : path || '';
   
+  // 构建查询字符串
+  const queryString = new URLSearchParams(queryParams).toString();
+  const fullPath = queryString ? `${apiPath}?${queryString}` : apiPath;
+  
   // 构建目标URL
-  const targetUrl = `http://34.130.185.125:3000/api/${apiPath}`;
+  const targetUrl = `http://34.130.185.125:3000/api/${fullPath}`;
   
   try {
     // 构建请求选项
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
     console.log(`🔄 Proxying ${req.method} ${targetUrl}`);
     
     // 发送请求到后端
-    const response = await fetch(targetUrl + (req.url.includes('?') ? '&' + req.url.split('?')[1] : ''), requestOptions);
+    const response = await fetch(targetUrl, requestOptions);
     
     // 获取响应数据
     const data = await response.text();
