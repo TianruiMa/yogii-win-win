@@ -8,24 +8,34 @@ class UserService {
     return `user_${timestamp}_${random}`;
   }
 
-  // 货币转换函数
-  convertCurrency(amount, fromCurrency, toCurrency) {
+  // 货币转换函数（使用动态汇率服务）
+  async convertCurrency(amount, fromCurrency, toCurrency) {
     if (fromCurrency === toCurrency) {
       return amount;
     }
 
-    const EXCHANGE_RATES = {
-      CAD_TO_CNY: 5.2,
-      CNY_TO_CAD: 1 / 5.2
-    };
+    try {
+      // 使用动态汇率服务
+      const { default: exchangeRateService } = await import('./exchangeRateService.js');
+      const rate = await exchangeRateService.getRate(fromCurrency, toCurrency);
+      return Number((amount * rate).toFixed(2));
+    } catch (error) {
+      console.warn(`汇率转换失败，使用备用汇率 ${fromCurrency}→${toCurrency}:`, error);
+      
+      // 备用汇率（与前端保持一致）
+      const FALLBACK_RATES = {
+        CAD_TO_CNY: 5.2,
+        CNY_TO_CAD: 1 / 5.2
+      };
 
-    if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
-      return Number((amount * EXCHANGE_RATES.CAD_TO_CNY).toFixed(2));
-    } else if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
-      return Number((amount * EXCHANGE_RATES.CNY_TO_CAD).toFixed(2));
+      if (fromCurrency === 'CAD' && toCurrency === 'CNY') {
+        return Number((amount * FALLBACK_RATES.CAD_TO_CNY).toFixed(2));
+      } else if (fromCurrency === 'CNY' && toCurrency === 'CAD') {
+        return Number((amount * FALLBACK_RATES.CNY_TO_CAD).toFixed(2));
+      }
+
+      return amount; // 默认不转换
     }
-
-    return amount; // 默认不转换
   }
 
   // 获取用户统计（从 player_results 计算，支持货币转换）
@@ -49,11 +59,11 @@ class UserService {
       console.log(`🔍 查询到 ${gameRecords.length} 条记录:`, gameRecords);
 
       // 转换所有profit到用户偏好货币
-      const convertedProfits = gameRecords.map(record => {
-        const convertedProfit = this.convertCurrency(record.profit, record.room_currency, userPreferredCurrency);
+      const convertedProfits = await Promise.all(gameRecords.map(async record => {
+        const convertedProfit = await this.convertCurrency(record.profit, record.room_currency, userPreferredCurrency);
         console.log(`💱 货币转换: ${record.profit} ${record.room_currency} -> ${convertedProfit} ${userPreferredCurrency}`);
         return convertedProfit;
-      });
+      }));
 
       console.log(`📈 所有转换后的profits: [${convertedProfits.join(', ')}]`);
 
