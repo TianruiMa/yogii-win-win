@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <!-- 扑克牌背景 -->
+  <rect x="20" y="10" width="60" height="80" rx="8" ry="8" fill="#ffffff" stroke="#333" stroke-width="2"/>
+  
+  <!-- 黑桃符号 -->
+  <path d="M50 25 C45 20, 35 25, 40 35 C35 35, 35 45, 50 40 C65 45, 65 35, 60 35 C65 25, 55 20, 50 25" fill="#000"/>
+  
+  <!-- A 字母 -->
+  <text x="50" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#000">A</text>
+</svg>
